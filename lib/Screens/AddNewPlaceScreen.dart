@@ -3,6 +3,8 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:path/path.dart' as path;
+import 'package:path_provider/path_provider.dart' as pathProv;
 
 class AddPlacesScreen extends StatefulWidget {
   static const ROUTE_NAME = "AddPlacesScreen";
@@ -20,6 +22,10 @@ class _AddPlacesScreenState extends State<AddPlacesScreen> {
     setState(() {
       _imageFile = File(imageFile.path);
     });
+    final appDir = await pathProv.getApplicationDocumentsDirectory();
+    final fileName = path.basename(_imageFile.path);
+    print("${appDir.path} === $fileName");
+    final savedImage = await _imageFile.copy("${appDir.path}/$fileName");
   }
 
   @override
@@ -70,7 +76,6 @@ class _AddPlacesScreenState extends State<AddPlacesScreen> {
                             child: FlatButton.icon(
                               icon: Icon(
                                 Icons.camera,
-                                color: Theme.of(context).primaryColor,
                               ),
                               label: Text("Select Image"),
                               textColor: Theme.of(context).primaryColor,
