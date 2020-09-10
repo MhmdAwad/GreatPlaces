@@ -3,6 +3,8 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:great_places/Widgets/ImageSelector.dart';
+import 'package:great_places/providers/PlacesProvider.dart';
+import 'package:provider/provider.dart';
 
 class AddPlacesScreen extends StatefulWidget {
   static const ROUTE_NAME = "AddPlacesScreen";
@@ -13,7 +15,7 @@ class AddPlacesScreen extends StatefulWidget {
 
 class _AddPlacesScreenState extends State<AddPlacesScreen> {
   File _pickedImage;
-  TextEditingController _titleController;
+  var _titleController = TextEditingController();
 
   void _saveImage(File selectedImage) {
     _pickedImage = selectedImage;
@@ -22,7 +24,8 @@ class _AddPlacesScreenState extends State<AddPlacesScreen> {
     if(_titleController.text.isEmpty || _pickedImage == null)
       return;
 
-
+    Provider.of<PlacesProvider>(context, listen: false).addPlace(_titleController.text, _pickedImage);
+    Navigator.of(context).pop();
   }
 
   @override
@@ -36,7 +39,7 @@ class _AddPlacesScreenState extends State<AddPlacesScreen> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               Padding(
-                  padding: const EdgeInsets.all(10),
+                  padding: const EdgeInsets.all(8),
                   child: Column(
                     children: [
                       TextFormField(
@@ -49,13 +52,14 @@ class _AddPlacesScreenState extends State<AddPlacesScreen> {
                       ImageSelector(_saveImage)
                     ],
                   )),
-              RaisedButton(
-                child: Text(
+              RaisedButton.icon(
+                icon: Icon(Icons.add),
+                label: Text(
                   "Add Place",
                 ),
                 materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
                 color: Theme.of(context).accentColor,
-                onPressed: () {},
+                onPressed: _savePlace,
               )
             ]));
   }

@@ -12,6 +12,13 @@ class PlacesProvider with ChangeNotifier {
     return [..._items];
   }
 
-
+  void addPlace(String selectedTitle, File selectedImage,) {
+    final newPlace = Place(id: DateTime.now().toString(),
+        title: selectedTitle,
+        image: selectedImage,
+        location: null);
+    _items.add(newPlace);
+    notifyListeners();
+  }
 
 }

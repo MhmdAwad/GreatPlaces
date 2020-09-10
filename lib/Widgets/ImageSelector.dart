@@ -21,12 +21,13 @@ class _ImageSelectorState extends State<ImageSelector> {
   void _takePic() async {
     final imageFile =
     await ImagePicker().getImage(source: ImageSource.camera, maxWidth: 600);
+    if(imageFile == null)
+      return;
     setState(() {
       _imageFile = File(imageFile.path);
     });
     final appDir = await pathProv.getApplicationDocumentsDirectory();
     final fileName = path.basename(_imageFile.path);
-    print("${appDir.path} === $fileName");
     final savedImage = await _imageFile.copy("${appDir.path}/$fileName");
     widget.saveImageFun(savedImage);
   }
