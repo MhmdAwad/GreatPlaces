@@ -20,4 +20,9 @@ class DBHelper {
     );
   }
 
+  static Future<List<Map<String,dynamic>>> getPlaces(String table) async{
+    final sqlDB = await DBHelper.database();
+    return sqlDB.query(table);
+  }
+
 }

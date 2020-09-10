@@ -25,5 +25,14 @@ class PlacesProvider with ChangeNotifier {
     DBHelper.insert("user_places", newPlace.toMap());
   }
 
-
+  Future<void> fetchPlaces() async {
+    final dataList = await DBHelper.getPlaces("user_places");
+    dataList.map((data) => _items.add(Place(
+          id: data['id'],
+          title: data['title'],
+          location: null,
+          image: File(data['image']),
+        ))).toList();
+    notifyListeners();
+  }
 }
