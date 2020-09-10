@@ -26,4 +26,13 @@ class Place {
     @required this.location,
     @required this.image,
   });
+
+  Map<String, dynamic> toMap(){
+    return {
+      "id": id,
+      "title":title,
+//      "location":location,
+      "image": image.path
+    };
+  }
 }

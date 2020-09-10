@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 class MainScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    Provider.of<PlacesProvider>(context, listen: false).fetchPlaces();
     return Scaffold(
         appBar: AppBar(
           title: Text("Great Places"),
@@ -30,6 +31,6 @@ class MainScreen extends StatelessWidget {
                     ),
                     itemCount: places.items.length,
                   ),
-            child: Center(child: Text("No places yet. add one"))));
+            child: Center(child: Text("No places yet. add now"))));
   }
 }
