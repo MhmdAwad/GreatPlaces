@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:great_places/Screens/AddPlaceScreen.dart';
+import 'package:great_places/Screens/AddNewPlaceScreen.dart';
 
 class MainScreen extends StatelessWidget {
   @override

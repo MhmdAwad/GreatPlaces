@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:great_places/Screens/AddPlaceScreen.dart';
+import 'package:great_places/Screens/AddNewPlaceScreen.dart';
 import 'package:great_places/Screens/MainScreen.dart';
 
 void main() => runApp(MyApp());
