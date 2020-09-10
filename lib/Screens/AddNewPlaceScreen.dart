@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:image_picker/image_picker.dart';
 
 class AddPlacesScreen extends StatefulWidget {
   static const ROUTE_NAME = "AddPlacesScreen";
@@ -9,6 +12,16 @@ class AddPlacesScreen extends StatefulWidget {
 }
 
 class _AddPlacesScreenState extends State<AddPlacesScreen> {
+  File _imageFile;
+
+  void _takePic() async {
+    final imageFile =
+        await ImagePicker().getImage(source: ImageSource.camera, maxWidth: 600);
+    setState(() {
+      _imageFile = File(imageFile.path);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -37,12 +50,18 @@ class _AddPlacesScreenState extends State<AddPlacesScreen> {
                             width: 100,
                             height: 100,
                             decoration: BoxDecoration(
-                                border:
-                                    Border.all(width: 1, color: Colors.grey)),
-                            child: Text(
-                              "No Image!",
-                              textAlign: TextAlign.center,
+                              border: Border.all(width: 1, color: Colors.grey),
                             ),
+                            child: _imageFile == null
+                                ? Text(
+                                    "No Image!",
+                                    textAlign: TextAlign.center,
+                                  )
+                                : Image.file(
+                                    _imageFile,
+                                    fit: BoxFit.cover,
+                                    width: double.infinity,
+                                  ),
                           ),
                           SizedBox(
                             width: 10,
@@ -55,7 +74,7 @@ class _AddPlacesScreenState extends State<AddPlacesScreen> {
                               ),
                               label: Text("Select Image"),
                               textColor: Theme.of(context).primaryColor,
-                              onPressed: () {},
+                              onPressed: _takePic,
                             ),
                           )
                         ],
