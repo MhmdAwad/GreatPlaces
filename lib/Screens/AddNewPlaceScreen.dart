@@ -3,7 +3,9 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:great_places/Widgets/ImageSelector.dart';
+import 'package:great_places/helpers/location_helper.dart';
 import 'package:great_places/providers/PlacesProvider.dart';
+import 'package:location/location.dart';
 import 'package:provider/provider.dart';
 
 class AddPlacesScreen extends StatefulWidget {
@@ -28,6 +30,16 @@ class _AddPlacesScreenState extends State<AddPlacesScreen> {
     Provider.of<PlacesProvider>(context, listen: false)
         .addPlace(_titleController.text, _pickedImage);
     Navigator.of(context).pop();
+  }
+
+  Future<void> _getUserLocation() async{
+    final locationData = await Location.instance.getLocation();
+    final locationImage = LocationHelper.generateLocationPreviewImage(latitude: locationData.latitude,
+    longitude: locationData.longitude);
+    print(locationImage);
+    setState(() {
+      locationImageUrl = locationImage;
+    });
   }
 
   @override
@@ -74,10 +86,10 @@ class _AddPlacesScreenState extends State<AddPlacesScreen> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           FlatButton.icon(
-                            onPressed: () {},
                             icon: Icon(Icons.add_location),
                             label: Text("Current Location"),
                             textColor: Theme.of(context).primaryColor,
+                            onPressed: _getUserLocation,
                           ),
                           FlatButton.icon(
                             onPressed: () {},
