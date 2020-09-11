@@ -15,16 +15,18 @@ class AddPlacesScreen extends StatefulWidget {
 
 class _AddPlacesScreenState extends State<AddPlacesScreen> {
   File _pickedImage;
+  String locationImageUrl;
   var _titleController = TextEditingController();
 
   void _saveImage(File selectedImage) {
     _pickedImage = selectedImage;
   }
-  void _savePlace(){
-    if(_titleController.text.isEmpty || _pickedImage == null)
-      return;
 
-    Provider.of<PlacesProvider>(context, listen: false).addPlace(_titleController.text, _pickedImage);
+  void _savePlace() {
+    if (_titleController.text.isEmpty || _pickedImage == null) return;
+
+    Provider.of<PlacesProvider>(context, listen: false)
+        .addPlace(_titleController.text, _pickedImage);
     Navigator.of(context).pop();
   }
 
@@ -49,7 +51,42 @@ class _AddPlacesScreenState extends State<AddPlacesScreen> {
                       SizedBox(
                         height: 20,
                       ),
-                      ImageSelector(_saveImage)
+                      ImageSelector(_saveImage),
+                      SizedBox(height: 20,),
+                      Container(
+                        alignment: Alignment.center,
+                        width: double.infinity,
+                        padding: EdgeInsets.all(10),
+                        height: 150,
+                        decoration: BoxDecoration(
+                            border: Border.all(width: 1, color: Colors.grey)),
+                        child: locationImageUrl == null
+                            ? Text(
+                                "No Location Chosen",
+                                textAlign: TextAlign.center,
+                              )
+                            : Image.network(
+                                locationImageUrl,
+                                fit: BoxFit.cover,
+                              ),
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          FlatButton.icon(
+                            onPressed: () {},
+                            icon: Icon(Icons.add_location),
+                            label: Text("Current Location"),
+                            textColor: Theme.of(context).primaryColor,
+                          ),
+                          FlatButton.icon(
+                            onPressed: () {},
+                            icon: Icon(Icons.map),
+                            label: Text("Select on Map"),
+                            textColor: Theme.of(context).primaryColor,
+                          ),
+                        ],
+                      )
                     ],
                   )),
               RaisedButton.icon(
